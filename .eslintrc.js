@@ -26,5 +26,7 @@ module.exports = {
     'import/extensions': 'off',
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/react-in-jsx-scope': 'off',
+    'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
   },
 };

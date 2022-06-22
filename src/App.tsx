@@ -1,30 +1,52 @@
-// import './App.css';
+import { useState } from 'react';
+import './App.scss';
 
-const list = [
-  {
-    id: 1,
-    name: 'a',
-  },
-  {
-    id: 2,
-    name: 'b',
-  },
-  {
-    id: 3,
-    name: 'c',
-  },
-];
-const flag = false;
 function App() {
+  const lists = [
+    {
+      id: 1,
+      name: '首页',
+      icon: 'shouye',
+    },
+    {
+      id: 2,
+      name: '商品',
+      icon: 'shangpin',
+    },
+    {
+      id: 3,
+      name: '应用',
+      icon: 'yingyong',
+    },
+    {
+      id: 4,
+      name: '我的',
+      icon: 'wode',
+    },
+  ];
+  const iconStyle = (className: string) => `iconfont icon-${className}`;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const handleClick = (index: number) => {
+    setActiveIndex(index);
+  };
+
   return (
-    <>
-      <div className="App">
-        <ul>
-          { list.map((item) => (<li key={item.id}>{ item.name }</li>)) }
-        </ul>
-      </div>
-      <div>{ flag ? 'hello xiao' : 'xjm' }</div>
-    </>
+    <footer>
+      <ul>
+        {
+          lists.map((list, index) => (
+            <li
+              key={list.id}
+              className={index === activeIndex ? 'active' : ''}
+              onClick={() => handleClick(index)}
+            >
+              <i className={iconStyle(list.icon)} />
+              <span>{ list.name }</span>
+            </li>
+          ))
+        }
+      </ul>
+    </footer>
   );
 }
 
