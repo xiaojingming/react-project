@@ -2,6 +2,7 @@ import {
   BaseSyntheticEvent, useState,
 } from 'react';
 import './App.scss';
+import TestComponent from './pages/Test/index';
 
 function App() {
   const lists = [
@@ -37,9 +38,11 @@ function App() {
   };
 
   return (
-    <footer>
-      <ul>
-        {
+    <>
+      <TestComponent />
+      <footer>
+        <ul>
+          {
           lists.map((list, index) => (
             <li
               key={list.id}
@@ -51,8 +54,9 @@ function App() {
             </li>
           ))
         }
-      </ul>
-    </footer>
+        </ul>
+      </footer>
+    </>
   );
 }
 
