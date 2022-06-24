@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import {
+  BaseSyntheticEvent, useState,
+} from 'react';
 import './App.scss';
 
 function App() {
@@ -26,8 +28,12 @@ function App() {
   ];
   const iconStyle = (className: string) => `iconfont icon-${className}`;
   const [activeIndex, setActiveIndex] = useState(0);
-  const handleClick = (index: number) => {
+  const handleClick = (e: BaseSyntheticEvent, index: number) => {
+    console.log('p', index, e);
     setActiveIndex(index);
+  };
+  const handleClickOnName = (e: BaseSyntheticEvent) => {
+    console.log('click', e);
   };
 
   return (
@@ -38,10 +44,10 @@ function App() {
             <li
               key={list.id}
               className={index === activeIndex ? 'active' : ''}
-              onClick={() => handleClick(index)}
+              onClick={(e) => handleClick(e, index)}
             >
               <i className={iconStyle(list.icon)} />
-              <span>{ list.name }</span>
+              <span onClick={handleClickOnName}>{ list.name }</span>
             </li>
           ))
         }
