@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/state-in-constructor */
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable import/prefer-default-export */
@@ -5,24 +7,45 @@ import { Component, ReactNode } from 'react';
 
 class TestComponent extends Component {
   state: Readonly<{
-    name: string;
+    info: {
+      name: string;
+      age: number;
+    };
+    list: number[];
   }> = {
-      name: 'xjm',
+      info: {
+        name: 'xiao',
+        age: 24,
+      },
+      list: [1, 2, 3, 4],
     };
 
-  handleChangeName = () => {
-    const { name } = this.state;
+  handleChangeName = (index: number) => {
+    const { info } = this.state;
     this.setState({
-      name: name === 'xiao' ? 'xjm' : 'xiao',
+      info: {
+        ...info,
+        name: `${info.name + index}`,
+      },
     });
   };
 
   render(): ReactNode {
-    const { name } = this.state;
+    const { info: { name, age }, list } = this.state;
     return (
       <div>
-        <span>{`this is ${name}`}</span>
-        <div onClick={this.handleChangeName}>change</div>
+        <span>{`hello ${name} whose age is ${age}`}</span>
+        <ul>
+          {list.map((item, index) => (
+            <li
+              style={{ padding: '10px', backgroundColor: 'skyblue' }}
+              key={index}
+              onClick={() => this.handleChangeName(item)}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
