@@ -2,7 +2,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/state-in-constructor */
-/* eslint-disable react/prefer-stateless-function */
 /* eslint-disable import/prefer-default-export */
 import {
   BaseSyntheticEvent, Component, ReactNode, createRef,
