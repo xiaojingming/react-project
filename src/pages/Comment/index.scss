@@ -15,6 +15,9 @@
     .active {
       color: #000;
     }
+    .disActive {
+      cursor: pointer;
+    }
   }
   .add-comment {
     margin-top: 20px;
@@ -62,10 +65,28 @@
         flex: 1;
         padding-bottom: 20px;
         border-bottom: 1px solid #ccc;
+        .item-author {
+          display: block;
+          font-size: 18px;
+          margin-bottom: 5px;
+        }
+        .item-comment {
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
         .comment-options {
           display: flex;
           &-good, &-bad {
             display: flex;
+            margin-right: 10px;
+            cursor: pointer;
+            i {
+              margin-right: 5px;
+            }
+          }
+          &-time {
+            font-size: 14px;
+            margin-right: 20px;
           }
         }
       }

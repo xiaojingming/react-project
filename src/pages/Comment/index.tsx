@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
 import { Component, ReactNode } from 'react';
 import './index.scss';
@@ -14,6 +15,7 @@ interface Comment {
 class CommentComponent extends Component {
   state: Readonly<{
     lists: Comment[];
+    showLatest: boolean;
   }> = {
       lists: [
         {
@@ -28,21 +30,60 @@ class CommentComponent extends Component {
           id: 1,
           author: 'xiaojing',
           comment: 'this is comment 1',
-          date: '2022-06-28',
-          good: 1,
+          date: '2022-06-29',
+          good: 0,
+          bad: 3,
+        },
+        {
+          id: 2,
+          author: 'xiaojingming',
+          comment: 'this is comment 3',
+          date: '2022-06-30',
+          good: 10,
           bad: 0,
         },
       ],
+      showLatest: false,
     };
 
-  render(): ReactNode {
+  originList = this.state.lists;
+
+  handleChangeHead = (flag: boolean) => {
     const { lists } = this.state;
+    let ls = this.originList;
+    if (flag) {
+      ls = lists.concat()
+        .sort((next, cur) => {
+          if (new Date(next.date).getTime() - new Date(cur.date).getTime() > 0) {
+            return -1;
+          }
+          return 1;
+        });
+    }
+    this.setState({
+      showLatest: flag,
+      lists: ls,
+    });
+  };
+
+  render(): ReactNode {
+    const { lists, showLatest } = this.state;
     return (
       <div className="comment">
         <div className="header">
-          <span className="active">最热</span>
+          <span
+            className={showLatest ? 'disActive' : 'active'}
+            onClick={() => this.handleChangeHead(false)}
+          >
+            最热
+          </span>
           <span>|</span>
-          <span>最新</span>
+          <span
+            className={showLatest ? 'active' : 'disActive'}
+            onClick={() => this.handleChangeHead(true)}
+          >
+            最新
+          </span>
         </div>
         <div className="add-comment">
           <img src="../../../asserts/comment/lbxx.png" alt="" />
