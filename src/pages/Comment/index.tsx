@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
 import { Component, ReactNode } from 'react';
@@ -8,6 +9,7 @@ interface Comment {
   comment: string;
   date: string;
   good: number;
+  goodStatus: boolean;
   bad: number;
   id: number;
 }
@@ -24,6 +26,7 @@ class CommentComponent extends Component {
           comment: 'this is comment 1',
           date: '2022-06-28',
           good: 1,
+          goodStatus: false,
           bad: 0,
         },
         {
@@ -32,6 +35,7 @@ class CommentComponent extends Component {
           comment: 'this is comment 1',
           date: '2022-06-29',
           good: 0,
+          goodStatus: false,
           bad: 3,
         },
         {
@@ -40,6 +44,7 @@ class CommentComponent extends Component {
           comment: 'this is comment 3',
           date: '2022-06-30',
           good: 10,
+          goodStatus: false,
           bad: 0,
         },
       ],
@@ -66,6 +71,18 @@ class CommentComponent extends Component {
     });
   };
 
+  handleGoodChange = (index: number, status: boolean) => {
+    const { lists } = this.state;
+    this.setState({
+      lists: lists.map((list, idx) => {
+        if (idx === index) {
+          list.goodStatus = !status;
+        }
+        return list;
+      }),
+    });
+  };
+
   render(): ReactNode {
     const { lists, showLatest } = this.state;
     return (
@@ -87,13 +104,19 @@ class CommentComponent extends Component {
         </div>
         <div className="add-comment">
           <img src="../../../asserts/comment/lbxx.png" alt="" />
-          <input type="text" placeholder="请输入一条评论" />
+          <input
+            type="text"
+            placeholder="请输入一条评论"
+          />
           <div className="add-comment-btn">发布</div>
         </div>
         <ul className="comment-list">
           {
-              lists.map((list) => (
-                <li className="comment-list-item" key={list.id}>
+              lists.map((list, index) => (
+                <li
+                  className="comment-list-item"
+                  key={list.id}
+                >
                   <div className="item-left">
                     <img src="../../../asserts/comment/lbxx.png" alt="" />
                   </div>
@@ -103,12 +126,23 @@ class CommentComponent extends Component {
                     <div className="comment-options">
                       <span className="comment-options-time">{list.date}</span>
                       <div className="comment-options-good">
-                        <i className="iconfont icon-icon" />
-                        <span style={{ display: list.good > 0 ? 'block' : 'none' }}>{list.good}</span>
+                        <i
+                          className={`iconfont icon-icon ${list.goodStatus ? 'active' : ''}`}
+                          onClick={() => this.handleGoodChange(index, list.goodStatus)}
+                        />
+                        <span
+                          style={{ display: list.good > 0 ? 'block' : 'none' }}
+                        >
+                          {list.good}
+                        </span>
                       </div>
                       <div className="comment-options-bad">
                         <i className="iconfont icon-tubiao_diancai" />
-                        <span style={{ display: list.bad > 0 ? 'block' : 'none' }}>{list.bad}</span>
+                        <span
+                          style={{ display: list.bad > 0 ? 'block' : 'none' }}
+                        >
+                          {list.bad}
+                        </span>
                       </div>
                     </div>
                   </div>
