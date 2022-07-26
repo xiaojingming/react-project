@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
-import { Component, ReactNode } from 'react';
+import { BaseSyntheticEvent, Component, ReactNode } from 'react';
 import './index.scss';
 
 interface Comment {
@@ -11,6 +11,7 @@ interface Comment {
   good: number;
   goodStatus: boolean;
   bad: number;
+  badStatus: boolean;
   id: number;
 }
 
@@ -18,6 +19,7 @@ class CommentComponent extends Component {
   state: Readonly<{
     lists: Comment[];
     showLatest: boolean;
+    value: string;
   }> = {
       lists: [
         {
@@ -28,6 +30,7 @@ class CommentComponent extends Component {
           good: 1,
           goodStatus: false,
           bad: 0,
+          badStatus: false,
         },
         {
           id: 1,
@@ -37,6 +40,7 @@ class CommentComponent extends Component {
           good: 0,
           goodStatus: false,
           bad: 3,
+          badStatus: false,
         },
         {
           id: 2,
@@ -46,9 +50,11 @@ class CommentComponent extends Component {
           good: 10,
           goodStatus: false,
           bad: 0,
+          badStatus: false,
         },
       ],
       showLatest: false,
+      value: '',
     };
 
   originList = this.state.lists;
@@ -71,20 +77,35 @@ class CommentComponent extends Component {
     });
   };
 
-  handleGoodChange = (index: number, status: boolean) => {
+  handleStatusChange = (index: number, type: boolean, status: boolean) => {
     const { lists } = this.state;
     this.setState({
       lists: lists.map((list, idx) => {
         if (idx === index) {
-          list.goodStatus = !status;
+          list[`${type ? 'goodStatus' : 'badStatus'}`] = !status;
+          list[`${type ? 'good' : 'bad'}`] += !status ? 1 : -1;
+          if (list.badStatus !== false && list.goodStatus !== false) {
+            list[`${!type ? 'goodStatus' : 'badStatus'}`] = status;
+            list[`${!type ? 'good' : 'bad'}`] += status ? 1 : -1;
+          }
         }
         return list;
       }),
     });
   };
 
+  handleChangeInput = (e: BaseSyntheticEvent) => {
+    this.setState({
+      value: (e.target as HTMLInputElement).value,
+    });
+  };
+
+  handleSubmit = () => {
+    console.log(this.state.value);
+  };
+
   render(): ReactNode {
-    const { lists, showLatest } = this.state;
+    const { lists, showLatest, value } = this.state;
     return (
       <div className="comment">
         <div className="header">
@@ -107,48 +128,58 @@ class CommentComponent extends Component {
           <input
             type="text"
             placeholder="请输入一条评论"
+            value={value}
+            onChange={this.handleChangeInput}
           />
-          <div className="add-comment-btn">发布</div>
+          <div
+            className="add-comment-btn"
+            onClick={this.handleSubmit}
+          >
+            发布
+          </div>
         </div>
         <ul className="comment-list">
           {
-              lists.map((list, index) => (
-                <li
-                  className="comment-list-item"
-                  key={list.id}
-                >
-                  <div className="item-left">
-                    <img src="../../../asserts/comment/lbxx.png" alt="" />
-                  </div>
-                  <div className="item-right">
-                    <span className="item-author">{list.author}</span>
-                    <p className="item-comment">{list.comment}</p>
-                    <div className="comment-options">
-                      <span className="comment-options-time">{list.date}</span>
-                      <div className="comment-options-good">
-                        <i
-                          className={`iconfont icon-icon ${list.goodStatus ? 'active' : ''}`}
-                          onClick={() => this.handleGoodChange(index, list.goodStatus)}
-                        />
-                        <span
-                          style={{ display: list.good > 0 ? 'block' : 'none' }}
-                        >
-                          {list.good}
-                        </span>
-                      </div>
-                      <div className="comment-options-bad">
-                        <i className="iconfont icon-tubiao_diancai" />
-                        <span
-                          style={{ display: list.bad > 0 ? 'block' : 'none' }}
-                        >
-                          {list.bad}
-                        </span>
-                      </div>
+            lists.map((list, index) => (
+              <li
+                className="comment-list-item"
+                key={list.id}
+              >
+                <div className="item-left">
+                  <img src="../../../asserts/comment/lbxx.png" alt="" />
+                </div>
+                <div className="item-right">
+                  <span className="item-author">{list.author}</span>
+                  <p className="item-comment">{list.comment}</p>
+                  <div className="comment-options">
+                    <span className="comment-options-time">{list.date}</span>
+                    <div className="comment-options-good">
+                      <i
+                        className={`iconfont icon-icon ${list.goodStatus ? 'active' : ''}`}
+                        onClick={() => this.handleStatusChange(index, true, list.goodStatus)}
+                      />
+                      <span
+                        style={{ display: list.good > 0 ? 'block' : 'none' }}
+                      >
+                        {list.good}
+                      </span>
+                    </div>
+                    <div className="comment-options-bad">
+                      <i
+                        className={`iconfont icon-tubiao_diancai ${list.badStatus ? 'active' : ''}`}
+                        onClick={() => this.handleStatusChange(index, false, list.badStatus)}
+                      />
+                      <span
+                        style={{ display: list.bad > 0 ? 'block' : 'none' }}
+                      >
+                        {list.bad}
+                      </span>
                     </div>
                   </div>
-                </li>
-              ))
-            }
+                </div>
+              </li>
+            ))
+          }
         </ul>
       </div>
     );
