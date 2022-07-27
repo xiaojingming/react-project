@@ -2,18 +2,10 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
 import { BaseSyntheticEvent, Component, ReactNode } from 'react';
+import Tab from './components/tab';
+import List, { Comment } from './components/list';
+import AddComment from './components/addComment';
 import './index.scss';
-
-interface Comment {
-  author: string;
-  comment: string;
-  date: string;
-  good: number;
-  goodStatus: boolean;
-  bad: number;
-  badStatus: boolean;
-  id: number;
-}
 
 class CommentComponent extends Component {
   state: Readonly<{
@@ -101,86 +93,34 @@ class CommentComponent extends Component {
   };
 
   handleSubmit = () => {
-    console.log(this.state.value);
+    const { lists, value } = this.state;
+    const obj = {
+      id: lists.length + 1,
+      author: 'xiao',
+      comment: value,
+      date: '2022-07-27',
+      good: 0,
+      goodStatus: false,
+      bad: 0,
+      badStatus: false,
+    };
+    this.setState({
+      lists: [...lists, obj],
+      value: '',
+    });
   };
 
   render(): ReactNode {
     const { lists, showLatest, value } = this.state;
     return (
       <div className="comment">
-        <div className="header">
-          <span
-            className={showLatest ? 'disActive' : 'active'}
-            onClick={() => this.handleChangeHead(false)}
-          >
-            最热
-          </span>
-          <span>|</span>
-          <span
-            className={showLatest ? 'active' : 'disActive'}
-            onClick={() => this.handleChangeHead(true)}
-          >
-            最新
-          </span>
-        </div>
-        <div className="add-comment">
-          <img src="../../../asserts/comment/lbxx.png" alt="" />
-          <input
-            type="text"
-            placeholder="请输入一条评论"
-            value={value}
-            onChange={this.handleChangeInput}
-          />
-          <div
-            className="add-comment-btn"
-            onClick={this.handleSubmit}
-          >
-            发布
-          </div>
-        </div>
-        <ul className="comment-list">
-          {
-            lists.map((list, index) => (
-              <li
-                className="comment-list-item"
-                key={list.id}
-              >
-                <div className="item-left">
-                  <img src="../../../asserts/comment/lbxx.png" alt="" />
-                </div>
-                <div className="item-right">
-                  <span className="item-author">{list.author}</span>
-                  <p className="item-comment">{list.comment}</p>
-                  <div className="comment-options">
-                    <span className="comment-options-time">{list.date}</span>
-                    <div className="comment-options-good">
-                      <i
-                        className={`iconfont icon-icon ${list.goodStatus ? 'active' : ''}`}
-                        onClick={() => this.handleStatusChange(index, true, list.goodStatus)}
-                      />
-                      <span
-                        style={{ display: list.good > 0 ? 'block' : 'none' }}
-                      >
-                        {list.good}
-                      </span>
-                    </div>
-                    <div className="comment-options-bad">
-                      <i
-                        className={`iconfont icon-tubiao_diancai ${list.badStatus ? 'active' : ''}`}
-                        onClick={() => this.handleStatusChange(index, false, list.badStatus)}
-                      />
-                      <span
-                        style={{ display: list.bad > 0 ? 'block' : 'none' }}
-                      >
-                        {list.bad}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
+        <Tab showLatest={showLatest} handleChangeHead={this.handleChangeHead} />
+        <AddComment
+          value={value}
+          handleChangeInput={this.handleChangeInput}
+          handleSubmit={this.handleSubmit}
+        />
+        <List lists={lists} handleStatusChange={this.handleStatusChange} />
       </div>
     );
   }
