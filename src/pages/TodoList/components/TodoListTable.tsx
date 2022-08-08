@@ -36,6 +36,24 @@ const data: DataType[] = [
 const columns: ColumnsType<DataType> = [
   {
     title: 'Name',
+    key: 'name',
+    dataIndex: 'name',
+  },
+  {
+    title: 'Age',
+    key: 'nage',
+  },
+  {
+    title: 'Address',
+    key: 'address',
+  },
+  {
+    title: 'Tags',
+    key: 'tag',
+  },
+  {
+    title: 'Action',
+    key: 'action`',
   },
 ];
 

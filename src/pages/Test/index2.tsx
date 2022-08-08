@@ -1,5 +1,15 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState, createContext } from 'react';
+
+const { Provider, Consumer } = createContext<{ title: string }>({ title: '' });
+
+function C() {
+  return (
+    <Consumer>
+      { (value) => <div>{value.title}</div> }
+    </Consumer>
+  );
+}
 
 function A(props: { msg: string }) {
   const { msg } = props;
@@ -7,6 +17,7 @@ function A(props: { msg: string }) {
     <div>
       this is a component--
       {msg}
+      <C />
     </div>
   );
 }
@@ -21,13 +32,16 @@ function B(props: { handleGetMessageFromB: (v: string) => void }) {
 
 export default function TestComponent2() {
   const [msg, setMsg] = useState('');
+  const title = 'hello xjm';
   const handleGetMessageFromB = (val: string) => {
     setMsg(val);
   };
   return (
-    <div>
-      <A msg={msg} />
-      <B handleGetMessageFromB={handleGetMessageFromB} />
-    </div>
+    <Provider value={{ title }}>
+      <div>
+        <A msg={msg} />
+        <B handleGetMessageFromB={handleGetMessageFromB} />
+      </div>
+    </Provider>
   );
 }
