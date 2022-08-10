@@ -43,7 +43,8 @@ function TodoListComponent() {
     if (val === '') {
       return setDatalist(readOnlyData);
     }
-    const filterData = readOnlyData.filter((item) => item.name.includes(val));
+    const reg = new RegExp(val, 'ig');
+    const filterData = readOnlyData.filter((item) => reg.test(item.name));
     return setDatalist(filterData);
   };
   return (
