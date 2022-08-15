@@ -4,7 +4,6 @@ import { Input } from 'antd';
 import TodoListTable from './components/TodoListTable';
 import './index.scss';
 
-const { Search } = Input;
 export interface DataType {
   key: string;
   name: string;
@@ -12,6 +11,7 @@ export interface DataType {
   address: string;
   tags: string[];
 }
+const { Search } = Input;
 
 function TodoListComponent() {
   const data: DataType[] = [
