@@ -8,6 +8,7 @@ import TestComponent5 from './pages/Test/index5';
 import TestComponent6 from './pages/Test/index6';
 import TestComponent7 from './pages/Test/index7';
 import TestComponent8 from './pages/Test/index8';
+import TestComponent9 from './pages/Test/index9';
 import CommentComponent from './pages/Comment';
 import TodoListComponent from './pages/TodoList';
 import 'antd/dist/antd.css';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/test6" element={<TestComponent6 />} />
         <Route path="/test7" element={<TestComponent7 />} />
         <Route path="/test8" element={<TestComponent8 />} />
+        <Route path="/test9" element={<TestComponent9 />} />
         <Route path="/comment" element={<CommentComponent />} />
         <Route path="/todolist" element={<TodoListComponent />} />
       </Routes>
