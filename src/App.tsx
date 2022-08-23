@@ -9,8 +9,13 @@ import TestComponent6 from './pages/Test/index6';
 import TestComponent7 from './pages/Test/index7';
 import TestComponent8 from './pages/Test/index8';
 import TestComponent9 from './pages/Test/index9';
+import TestComponent10 from './pages/Test/index10';
 import CommentComponent from './pages/Comment';
 import TodoListComponent from './pages/TodoList';
+import Layout from './pages/Nest';
+import Login from './pages/Nest/login';
+import Article from './pages/Nest/SubPage/article';
+import Board from './pages/Nest/SubPage/board';
 import 'antd/dist/antd.css';
 
 function App() {
@@ -26,8 +31,14 @@ function App() {
         <Route path="/test7" element={<TestComponent7 />} />
         <Route path="/test8" element={<TestComponent8 />} />
         <Route path="/test9" element={<TestComponent9 />} />
+        <Route path="/test10/:id" element={<TestComponent10 />} />
         <Route path="/comment" element={<CommentComponent />} />
         <Route path="/todolist" element={<TodoListComponent />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="article" element={<Article />} />
+          <Route path="board" element={<Board />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
       {/* <Footer /> */}
     </>
