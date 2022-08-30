@@ -1,6 +1,6 @@
 import { Table, Tag, Space } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { DataType } from '../index';
+import type { DataType } from '..';
 import './table.scss';
 
 function TodoListTable(props: { data: DataType[] }) {
