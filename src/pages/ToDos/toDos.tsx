@@ -1,13 +1,16 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import todos from './style/todo.module.scss';
+import useStore from '../../store';
 
 function ToDos() {
+  const { todo } = useStore();
   return (
     <section className={todos.todoapp}>
       <header className={todos.header}>
         <h1>todos</h1>
         <input
           className={todos['new-todo']}
-          autoFocus
           autoComplete="off"
           placeholder="What needs to be done?"
         />
@@ -18,26 +21,22 @@ function ToDos() {
           className={todos['toggle-all']}
           type="checkbox"
         />
-        <label htmlFor="toggle-all"></label>
+        <label htmlFor="toggle-all" />
         <ul className={todos['todo-list']}>
-          <li
-            className={todos.todo}
-          >
-            <div className={todos.view}>
-              <input className={todos.toggle} type="checkbox" />
-              <label >learn react</label>
-              <button className={todos.destroy}></button>
-            </div>
-          </li>
-          <li
-            className="todo completed"
-          >
-            <div className={todos.view}>
-              <input className={todos.toggle} type="checkbox" defaultChecked={true}/>
-              <label>learn react</label>
-              <button className={todos.destroy}></button>
-            </div>
-          </li>
+          {
+            todo.dataList.map((item) => (
+              <li
+                className={todos.todo}
+                key={item.id}
+              >
+                <div className={todos.view}>
+                  <input className={todos.toggle} type="checkbox" />
+                  <label>{item.title}</label>
+                  <button className={todos.destroy} type="button" />
+                </div>
+              </li>
+            ))
+          }
         </ul>
       </section>
     </section>
